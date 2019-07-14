@@ -1,67 +1,115 @@
 #include <fstream>
-#include<iostream>
+#include <iostream>
 using namespace std;
-double funcion(double x0,double t0,double vx0,double y0, double vy0)
+//Funciones que reciben por parametro las velocidades de X y Y (respectivamente) y retornan lo necesario para el metodo de Runge Kutta de cuarto orden.
+double velocix(double x0,double y0, double t0, double vx0, double vy0)
     {
-    return v0;
+     return vx0;
     }
-double veloci(double x0,double t0,double vx0,double y0, double vy0)
+double velociy(double x0,double y0, double t0, double vx0, double vy0)
+    {
+     return vy0;
+    }
+//Funciones para calcular la aceleracion de X y Y aplicando la formula de ley de atraccion universal.
+double funcionx(double x0,double y0, double t0, double vx0, double vy0)
     {
     double G=pow(6.674*10,-11);
     double M=pow(1.989*10,30);
+    double R=pow(pow(x0,2)+pow(y0,2),1/2);
+    double a=(-G*M*x0)/R;
+    return a;
     }
-double runge(double a0, double b0, double h0, int num)
+double funciony(double x0,double y0, double t0, double vx0, double vy0)
     {
-    double arrt[num];
+    double G=pow(6.674*10,-11);
+    double M=pow(1.989*10,30);
+    double R=pow(pow(x0,2)+pow(y0,2),1/2);
+    double a=(-G*M*y0)/R;
+    return a;
+    }
+//Metodo de runge Kutta
+double runge(double a0,double h0, int num)
+    {
+    //Array de tiempo
+    arrt[num];
     arrt[0]=a0;
-    double k1;
-    double k2;
-    double k3;
-    double k4;
-    double prom;
+    //COnstantes de K para X y Y.
+    double kx1;
+    double kx2;
+    double kx3;
+    double kx4;
+    double ky1;
+    double ky2;
+    double ky3;
+    double ky4;
+    //COnstantes de K para V en X y Y.
+    double kvx1;
+    double kvx2;
+    double kvx3;
+    double kvx4;
+    double kvy1;
+    double kvy2;
+    double kvy3;
+    double kvy4;
+    //Constantes para calcular el promedio de las K.
+    double promx;
+    double promy;
+    double promvx;
+    double promvy;
+    //Arrays para las posiciones de X, Y y las veloscidades en X y Y.
     double arrx[num];
-    arrx[0]=0.1;
-    double k1v;
-    double k2v;
-    double k3v;
-    double k4v;
-    double promv;
-    double arrv[num];
-    arrv[0]=0.0;
+    double arry[num];
+    double velox[num];
+    double veloy[num];
+    //Condiciones iniciales de los array.
+    arrx[0]=0.1163;
+    arry[0]=0.9772;
+    velox[0]=-6.35;
+    veloy[0]=0.606;
     for(int i=1; i<=num;i++)
         {
-        k1=h0 * funcion(arrx[i-1],arrt[i-1],arrv[i-1]);
-        k1v=h0 * veloci(arrx[i-1],arrt[i-1],arrv[i-1]);
-        k2=h0 * funcion(arrx[i-1]+0.5*k1,arrt[i-1]+0.5*k1,arrv[i-1]+0.5*k1);
-        k2v=h0 * veloci(arrx[i-1]+0.5*k1v,arrt[i-1]+0.5*k1v,arrv[i-1]+0.5*k1v);
-        k3=h0 * funcion(arrx[i-1]+0.5*k2,arrv[i-1]+0.5*k2,arrv[i-1]+0.5*k2);
-        k3v=h0 * veloci(arrx[i-1]+0.5*k2v,arrv[i-1]+0.5*k2v,arrv[i-1]+0.5*k2v);
-        k4=h0 * funcion(arrx[i-1]+k3,arrt[i-1]+k3,arrv[i-1]+k3);
-        k4v=h0 * veloci(arrx[i-1]+k3v,arrt[i-1]+k3v,arrv[i-1]+k3v);
-        prom=(1.0/6.0)*(k1+2.0*k2+2.0*k3+k4);
-        promv=(1.0/6.0)*(k1v+2.0*k2v+2.0*k3v+k4v);
+        //Primera K para cada variable.
+        kx1=h0*funcionx(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        ky1=h0*funciony(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        kvx1=h0*velocix(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        kvy1=h0*velociy(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        //Segunda K para cada variable.
+        kx2=h0*funcionx(arrx[i-1]+0.5*kx1,arry[i-1]+0.5*kx1,arrt[i-1]+0.5*kx1,velox[i-1]+0.5*kx1,veloy[i-1]+0.5*kx1);
+        ky2=h0*funciony(arrx[i-1]+0.5*ky1,arry[i-1]+0.5*ky1,arrt[i-1]+0.5*ky1,velox[i-1]+0.5*ky1,veloy[i-1]+0.5*ky1);
+        kvx2=h0*velocix(arrx[i-1]+0.5*kvx1,arry[i-1]+0.5*kvx1,arrt[i-1]+0.5*kvx1,velox[i-1]+0.5*kvx1,veloy[i-1]+0.5*kvx1);
+        kvy2=h0*velocix(arrx[i-1]+0.5*kvy1,arry[i-1]+0.5*kvy1,arrt[i-1]+0.5*kvy1,velox[i-1]+0.5*kvy1,veloy[i-1]+0.5*kvy1);
+        //Tercera K para cada variable.
+        kx3=h0*funcionx(arrx[i-1]+0.5*kx2,arry[i-1]+0.5*kx2,arrt[i-1]+0.5*kx2,velox[i-1]+0.5*kx2,veloy[i-1]+0.5*kx2);
+        ky3=h0*funciony(arrx[i-1]+0.5*ky2,arry[i-1]+0.5*ky2,arrt[i-1]+0.5*ky2,velox[i-1]+0.5*ky2,veloy[i-1]+0.5*ky2);
+        kvx3=h0*velocix(arrx[i-1]+0.5*kvx2,arry[i-1]+0.5*kvx2,arrt[i-1]+0.5*kvx2,velox[i-1]+0.5*kvx2,veloy[i-1]+0.5*kvx2);
+        kvy3=h0*velocix(arrx[i-1]+0.5*kvy2,arry[i-1]+0.5*kvy2,arrt[i-1]+0.5*kvy2,velox[i-1]+0.5*kvy2,veloy[i-1]+0.5*kvy2);
+        //Cuarta K para cada variable.
+        kx4=h0*funcionx(arrx[i-1]+kx3,arry[i-1]+kx3,arrt[i-1]+kx3,velox[i-1]+kx3,veloy[i-1]+kx3);
+        ky4=h0*funciony(arrx[i-1]+ky3,arry[i-1]+ky3,arrt[i-1]+ky3,velox[i-1]+ky3,veloy[i-1]+ky3);
+        kvx4=h0*velocix(arrx[i-1]+kvx3,arry[i-1]+kvx3,arrt[i-1]+kvx3,velox[i-1]+kvx3,veloy[i-1]+kvx3);
+        kvy4=h0*velociy(arrx[i-1]+kvy3,arry[i-1]+kvy3,arrt[i-1]+kvy3,velox[i-1]+kvy3,veloy[i-1]+kvy3);
+        //Promedios de K.
+        promx=(1.0/6.0)*(kx1+2.0*kx2+2.0*kx3+kx4);
+        promy=(1.0/6.0)*(ky1+2.0*ky2+2.0*kx3+ky4);
+        promvx=(1.0/6.0)*(kvx3+2.0*kvx2+2.0*kvx3+kvx4);
+        promvy=(1.0/6.0)*(kvy3+2.0*kvy2+2.0*kvy3+kvy4);
+        //Completar arrays.
         arrt[i]=arrt[i-1]+h0;
-        arrx[i]=arrx[i-1]+prom;
-        arrv[i]=arrv[i-1]+promv;
+        arrx[i]=arrx[i-1]+promx;
+        arry[i]=arry[i-1]+promy;
+        velox[i]=velox[i-1]+promvx;
+        veloy[i]=veloy[i-1]+promvy;
         }
+    //Guardado de datos Runge Kutta.
     ofstream outfile;
-    outfile.open("runge.dat");
+    outfile.open("RungeKuta.dat");
     for(int i=0;i<=num;i++)
         {
-        outfile <<arrt[i]<<";"<<arrx[i]<<";"<<arrv[i]<< endl;
+        outfile<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
         }
     outfile.close();
-    for(int i=0;i<=num;i++)
-        {
-        cout <<arrt[i]<<";"<<arrv[i]<<";"<<arrx[i]<< endl;
-        }
     }
 int main()
     {
-    double a=0.0;
-    double b=5.0;
-    double h=0.01;
-    int puntos=(b-a)/h;
-    runge(a,b,h,puntos);
     return 0;
     }
