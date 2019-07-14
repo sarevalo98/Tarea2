@@ -27,7 +27,81 @@ double funciony(double x0,double y0, double t0, double vx0, double vy0)
     double a=(-G*M*y0)/R;
     return a;
     }
-//Metodo de runge Kutta
+//Metodo de Leap-Frog.
+double Leap(double a0,double h0, int num)
+    {
+    //Arrays para las posiciones de X, Y, T y las veloscidades en X y Y.
+    arrt[num];
+    double arrx[num];
+    double arry[num];
+    double velox[num];
+    double veloy[num];
+    //Condiciones iniciales de los array.
+    arrt[0]=a0;
+    arrx[0]=0.1163;
+    arry[0]=0.9772;
+    velox[0]=-6.35;
+    veloy[0]=0.606;
+    //Condiciones primera posición.
+    arrt[1]=arrt[0]+h0;
+    arrx[1]=arrx[0]+h0 * funcionx(arrx[0],arry[0],arrt[0],velox[0],veloy[0]);
+    arry[1]=arry[0]+h0 * funciony(arrx[0],arry[0],arrt[0],velox[0],veloy[0]);
+    velox[1]=velox[0]+h0*velocix(arrx[0],arry[0],arrt[0],velox[0],veloy[0]);
+    veloy[1]=veloy[0]+h0*velociy(arrx[0],arry[0],arrt[0],velox[0],veloy[0]);
+    //Procedimiento.
+    for(int i=2; i<=num;i++)
+        {
+        arrt[i]=arrt[i-1]+h0;
+        arrx[i]=arrx[i-2]+2.0*h0 * funcionx(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        arry[i]=arry[i-2]+2.0*h0 * funciony(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        velox[i]=velox[i-2]+2.0*h0*velocix(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        veloy[i]=veloy[i-2]+2.0*h0*velociy(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        }
+    //Guardado de datos Leap-Frog.
+    ofstream outfile3;
+    outfile3.open("Leap.dat");
+    for(int i=0;i<=num;i++)
+        {
+        outfile3<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
+        }
+    outfile3.close();
+    }
+
+//Metodo de Euler.
+double euler(double a0,double h0, int num)
+    {
+    //Arrays para las posiciones de X, Y, T y las veloscidades en X y Y.
+    arrt[num];
+    double arrx[num];
+    double arry[num];
+    double velox[num];
+    double veloy[num];
+    //Condiciones iniciales de los array.
+    arrt[0]=a0;
+    arrx[0]=0.1163;
+    arry[0]=0.9772;
+    velox[0]=-6.35;
+    veloy[0]=0.606;
+    //Procedimiento.
+    for(int i=1; i<=num;i++)
+        {
+        arrt[i]=arrt[i-1]+h0;
+        arrx[i]=arrx[i-1]+h0 * funcionx(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        arry[i]=arry[i-1]+h0 * funciony(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        velox[i]=velox[i-1]+h0*velocix(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        veloy[i]=veloy[i-1]+h0*velociy(arrx[i-1],arry[i-1],arrt[i-1],velox[i-1],veloy[i-1]);
+        }
+    //Guardado de datos Euler.
+    ofstream outfile2;
+    outfile2.open("Euler.dat");
+    for(int i=0;i<=num;i++)
+        {
+        outfile2<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
+        }
+    outfile2.close();
+    }
+
+//Metodo de runge Kutta.
 double runge(double a0,double h0, int num)
     {
     //Array de tiempo
