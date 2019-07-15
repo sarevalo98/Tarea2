@@ -2,6 +2,21 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
+//Función para calcular el momento angular.
+double Angularx(double x0,double y0, double t0, double vx0, double vy0)
+    {
+    double m=3.002513826*pow(10,-6);//Masa de la tierra en Masas solares
+    double R=pow(pow(x0,2)+pow(y0,2),1/2);
+    double L=R*m*vx0;
+    return L;
+    }
+double Angulary(double x0,double y0, double t0, double vx0, double vy0)
+    {
+    double m=3.002513826*pow(10,-6);//Masa de la tierra en Masas solares
+    double R=pow(pow(x0,2)+pow(y0,2),1/2);
+    double L=R*m*vy0;
+    return L;
+    }
 //Funciones que reciben por parametro las velocidades de X y Y (respectivamente) y retornan lo necesario para el metodo de Runge Kutta de cuarto orden.
 double velocix(double x0,double y0, double t0, double vx0, double vy0)
     {
@@ -14,16 +29,16 @@ double velociy(double x0,double y0, double t0, double vx0, double vy0)
 //Funciones para calcular la aceleracion de X y Y aplicando la formula de ley de atraccion universal.
 double funcionx(double x0,double y0, double t0, double vx0, double vy0)
     {
-    double G=pow(6.674*10,-11);
-    double M=pow(1.989*10,30);
+    double G=4.420995153*pow(10,68);//Constante gravitacional universal en Masas solares, años y UA.
+    double M=1.989*pow(10,30);
     double R=pow(pow(x0,2)+pow(y0,2),1/2);
     double a=(-G*M*x0)/R;
     return a;
     }
 double funciony(double x0,double y0, double t0, double vx0, double vy0)
     {
-    double G=pow(6.674*10,-11);
-    double M=pow(1.989*10,30);
+    double G=4.420995153*pow(10,68);//Constante gravitacional universal en Masas solares, años y UA.
+    double M=1.989*pow(10,30);
     double R=pow(pow(x0,2)+pow(y0,2),1/2);
     double a=(-G*M*y0)/R;
     return a;
@@ -66,6 +81,18 @@ double Leap(double a0,double h0, int num)
         outfile3<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
         }
     outfile3.close();
+    ofstream outfile4;
+    //Momento Angular
+    outfile4.open("LeapAngular.dat");
+    double angux[num];
+    double anguy[num];
+    for(int i=0;i<num;i++)
+        {
+        angux[i]=Angularx(arrx[i],arry[i],arrt[i],velox[i],veloy[i]);
+        anguy[i]=Angulary(arrx[i],arry[i],arrt[i],velox[i],veloy[i]);
+        outfile4<<angux[i]<<";"<<anguy[i]<<endl;
+        }
+    outfile4.close();
     }
 
 //Metodo de Euler.
@@ -100,6 +127,18 @@ double euler(double a0,double h0, int num)
         outfile2<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
         }
     outfile2.close();
+    //Momento Angular
+    ofstream outfile5;
+    outfile5.open("EulerAngular.dat");
+    double angux[num];
+    double anguy[num];
+    for(int i=0;i<num;i++)
+        {
+        angux[i]=Angularx(arrx[i],arry[i],arrt[i],velox[i],veloy[i]);
+        anguy[i]=Angulary(arrx[i],arry[i],arrt[i],velox[i],veloy[i]);
+        outfile5<<angux[i]<<";"<<anguy[i]<<endl;
+        }
+    outfile5.close();
     }
 
 //Metodo de runge Kutta.
@@ -177,12 +216,24 @@ double runge(double a0,double h0, int num)
         }
     //Guardado de datos Runge Kutta.
     ofstream outfile;
-    outfile.open("RungeKuta.dat");
+    outfile.open("RungeKutta.dat");
     for(int i=0;i<num;i++)
         {
         outfile<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
         }
     outfile.close();
+    //Momento Angular
+    ofstream outfile6;
+    outfile6.open("RungeKuttaAngular.dat");
+    double angux[num];
+    double anguy[num];
+    for(int i=0;i<num;i++)
+        {
+        angux[i]=Angularx(arrx[i],arry[i],arrt[i],velox[i],veloy[i]);
+        anguy[i]=Angulary(arrx[i],arry[i],arrt[i],velox[i],veloy[i]);
+        outfile6<<angux[i]<<";"<<anguy[i]<<endl;
+        }
+    outfile6.close();
     }
 int main()
     {
