@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <cmath>
 using namespace std;
 //Funciones que reciben por parametro las velocidades de X y Y (respectivamente) y retornan lo necesario para el metodo de Runge Kutta de cuarto orden.
 double velocix(double x0,double y0, double t0, double vx0, double vy0)
@@ -31,7 +32,7 @@ double funciony(double x0,double y0, double t0, double vx0, double vy0)
 double Leap(double a0,double h0, int num)
     {
     //Arrays para las posiciones de X, Y, T y las veloscidades en X y Y.
-    arrt[num];
+    double arrt[num];
     double arrx[num];
     double arry[num];
     double velox[num];
@@ -60,7 +61,7 @@ double Leap(double a0,double h0, int num)
     //Guardado de datos Leap-Frog.
     ofstream outfile3;
     outfile3.open("Leap.dat");
-    for(int i=0;i<=num;i++)
+    for(int i=0;i<num;i++)
         {
         outfile3<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
         }
@@ -71,7 +72,7 @@ double Leap(double a0,double h0, int num)
 double euler(double a0,double h0, int num)
     {
     //Arrays para las posiciones de X, Y, T y las veloscidades en X y Y.
-    arrt[num];
+    double arrt[num];
     double arrx[num];
     double arry[num];
     double velox[num];
@@ -94,7 +95,7 @@ double euler(double a0,double h0, int num)
     //Guardado de datos Euler.
     ofstream outfile2;
     outfile2.open("Euler.dat");
-    for(int i=0;i<=num;i++)
+    for(int i=0;i<num;i++)
         {
         outfile2<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
         }
@@ -105,7 +106,7 @@ double euler(double a0,double h0, int num)
 double runge(double a0,double h0, int num)
     {
     //Array de tiempo
-    arrt[num];
+    double arrt[num];
     arrt[0]=a0;
     //COnstantes de K para X y Y.
     double kx1;
@@ -177,7 +178,7 @@ double runge(double a0,double h0, int num)
     //Guardado de datos Runge Kutta.
     ofstream outfile;
     outfile.open("RungeKuta.dat");
-    for(int i=0;i<=num;i++)
+    for(int i=0;i<num;i++)
         {
         outfile<<arrt[i]<<";"<<arrx[i]<<";"<<velox[i]<<";"<<arry[i]<<";"<<veloy[i]<<endl;
         }
@@ -185,5 +186,13 @@ double runge(double a0,double h0, int num)
     }
 int main()
     {
+    double a=0.0;
+    double b=20.0;
+    double h=0.001;
+    int puntos=(b-a)/h;
+    cout<< puntos<<endl;
+    runge(a,h,puntos);
+    euler(a,h, puntos);
+    Leap(a,h, puntos);
     return 0;
     }
