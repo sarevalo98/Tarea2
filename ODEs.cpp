@@ -192,7 +192,7 @@ int main()
     {
     int N=1000;
     double a=0.0;
-    double b=1.0;
+    double b=M_PI/2.0;
     double h=(b-a)/N;
     Euler(h,N);
     Leap(h,N);
