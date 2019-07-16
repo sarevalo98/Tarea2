@@ -105,6 +105,89 @@ double Leap(double h0,int num)
         }
     outfile2.close();
     }
+//Runge-kutta.
+double Runge(double h0, int num)
+    {
+    //Arrays
+    double arrt2[num];
+    double arrx2[num];
+    double arry2[num];
+    double Vx2[num];
+    double Vy2[num];
+    double Rs2[num];
+    //Condiciones iniciales.
+    arrt2[0]=0.0;
+    arrx2[0]=0.1164;
+    arry2[0]=0.99772;
+    Vx2[0]= (-6.35);
+    Vy2[0]= 0.606;
+    Rs2[0]= sqrt(pow(arrx2[0],2) + pow(arry2[0],2));
+    //variables K para los valores de X,Y,Vx y Vy.
+    double kx1;
+    double kx2;
+    double kx3;
+    double kx4;
+    double ky1;
+    double ky2;
+    double ky3;
+    double ky4;
+    double kvx1;
+    double kvx2;
+    double kvx3;
+    double kvx4;
+    double kvy1;
+    double kvy2;
+    double kvy3;
+    double kvy4;
+    //Guardar promedios
+    double promx;
+    double promy;
+    double promvx;
+    double promvy;
+    //Procedimiento
+    for(int i=1;i<num;i++)
+        {
+        //K para posicion X
+        kx1=h0*posicionx(arrx2[i-1],Vx2[i-1]);
+        kx2=h0*posicionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kx1);
+        kx3=h0*posicionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kx2);
+        kx4=h0*posicionx(arrx2[i-1]+kx3,Vx2[i-1]+kx3);
+        //K para posicion y
+        ky1=h0*posiciony(arry2[i-1],Vy2[i-1]);
+        ky2=h0*posiciony(arry2[i-1]+0.5*ky1,Vy2[i-1]+0.5*ky1);
+        ky3=h0*posiciony(arry2[i-1]+0.5*ky2,Vy2[i-1]+0.5*ky2);
+        ky4=h0*posiciony(arry2[i-1]+ky3,Vy2[i-1]+ky3);
+        //K para velocidad X
+        kvx1=h0*aceleracionx(arrx2[i-1],Vx2[0],Rs2[i-1]);
+        kvx2=h0*aceleracionx(arrx2[i-1]+0.5*kvx1,Vx2[i-1]+0.5*kvx1,Rs2[i-1]);
+        kvx3=h0*aceleracionx(arrx2[i-1]+0.5*kvx2,Vx2[i-1]+0.5*kvx2,Rs2[i-1]);
+        kvx4=h0*aceleracionx(arrx2[i-1]+kvx3,Vx2[i-1]+kvx3,Rs2[i-1]);
+        //K para velocidad Y
+        kvy1=h0*aceleraciony(arry2[i-1],Vy2[0],Rs2[i-1]);
+        kvy2=h0*aceleraciony(arry2[i-1]+0.5*kvy1,Vy2[i-1]+0.5*kvy1,Rs2[i-1]);
+        kvy3=h0*aceleraciony(arry2[i-1]+0.5*kvy2,Vy2[i-1]+0.5*kvy2,Rs2[i-1]);
+        kvy4=h0*aceleraciony(arry2[i-1]+kvy3,Vy2[i-1]+kvy3,Rs2[i-1]);
+        //Promedios
+        promx=(1.0/6.0)*(kx1+2.0*kx2+2.0*kx3+kx4);
+        promy=(1.0/6.0)*(ky1+2.0*ky2+2.0*ky3+ky4);
+        promvx=(1.0/6.0)*(kvx1+2.0*kvx2+2.0*kvx3+kvx4);
+        promvy=(1.0/6.0)*(kvy1+2.0*kvy2+2.0*ky3+kvy4);
+        //Valores
+        arrt2[i]=arrt2[i-1]+h0;
+        arrx2[i]=arrx2[i-1]+promx;
+        arry2[i]=arry2[i-1]+promy;
+        Vx2[i]=Vx2[i-1]+promvx;
+        Vy2[i]=Vy2[i-1]+promvy;
+        Rs2[i]= sqrt(pow(arrx2[i],2) + pow(arry2[i],2));
+        }
+    ofstream outfile3;
+    outfile3.open("RungeKutta.dat");
+    for(int i=0;i<num;i++)
+        {
+        outfile3<<arrt2[i]<<" "<<arrx2[i]<<" "<<Vx2[i]<<" "<<arry2[i]<<" "<<Vy2[i]<<endl;
+        }
+    outfile3.close();
+    }
 int main()
     {
     int N=1000;
@@ -113,5 +196,6 @@ int main()
     double h=(b-a)/N;
     Euler(h,N);
     Leap(h,N);
+    Runge(h,N);
     return 0;
     }
