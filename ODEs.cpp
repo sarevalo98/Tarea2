@@ -29,8 +29,9 @@ double aceleraciony(double y0,double vy0,double r0)
     double ay= Gy*My*y0/pow(r0,3);
     return ay;
     }
-double Euler(double h0,int num)
+double Euler(double h0)
     {
+    int num=20.0/h0;
     //Arrays
     double arrt[num];
     double arrx[num];
@@ -64,8 +65,9 @@ double Euler(double h0,int num)
     outfile.close();
     }
 //Leap-Frog
-double Leap(double h0,int num)
+double Leap(double h0)
     {
+    int num=20.0/h0;
     //Arrays
     double arrt1[num];
     double arrx1[num];
@@ -106,8 +108,9 @@ double Leap(double h0,int num)
     outfile2.close();
     }
 //Runge-kutta.
-double Runge(double h0, int num)
+double Runge(double h0)
     {
+    int num=20.0/h0;
     //Arrays
     double arrt2[num];
     double arrx2[num];
@@ -192,10 +195,9 @@ int main()
     {
     double a=0.0;
     double b=20.0;
-    double h=0.1;
-    int N=b/h;
-    Euler(h,N);
-    Leap(h,N);
-    Runge(h,N);
+    double h=0.01;
+    Euler(h);
+    Leap(h);
+    Runge(h);
     return 0;
     }
