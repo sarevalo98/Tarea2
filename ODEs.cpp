@@ -2,10 +2,12 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-double R(double x0,double y0)
+double momento(double r0)
     {
-    double r1=sqrt(pow(x0,2)+pow(y0,2));
-    return r1;
+    double I=(2.0/5.0)*(5.972*pow(10,24)/1.989*pow(10,30))*r0;
+    double W=(2.0*M_PI)/1.0;
+    double E=I*W;
+    return E;
     }
 double posicionx(double x0,double vx0,double t0)
     {
@@ -54,11 +56,16 @@ double Euler(double h0, string nombre)
         Vy[i]=Vy[i-1]+h0*aceleraciony(arry[i-1],Vy[i-1],Rs[i-1],arrt[i-1]);
         Rs[i]=sqrt(pow(arrx[i],2) + pow(arry[i],2));
         }
+    double momentum[num];
+    for(int i=0;i<num;i++)
+        {
+        momentum[i]=momento(Rs[i]);
+        }
     ofstream outfile;
     outfile.open(nombre);
     for(int i=0;i<num;i++)
         {
-        outfile<<arrt[i]<<" "<<arrx[i]<<" "<<Vx[i]<<" "<<arry[i]<<" "<<Vy[i]<<endl;
+        outfile<<arrt[i]<<" "<<arrx[i]<<" "<<Vx[i]<<" "<<arry[i]<<" "<<Vy[i]<<" "<<momentum[i]<<endl;
         }
     outfile.close();
     }
@@ -97,11 +104,16 @@ double Leap(double h0,string nombre)
         Vy1[i]=Vy1[i-2]+2*h0*aceleraciony(arry1[i-1],Vy1[i-1],Rs1[i-1],arrt1[i-1]);
         Rs1[i]=sqrt(pow(arrx1[i],2) + pow(arry1[i],2));
         }
+    double momentum1[num];
+    for(int i=0;i<num;i++)
+        {
+        momentum1[i]=momento(Rs1[i]);
+        }
     ofstream outfile2;
     outfile2.open(nombre);
     for(int i=0;i<num;i++)
         {
-        outfile2<<arrt1[i]<<" "<<arrx1[i]<<" "<<Vx1[i]<<" "<<arry1[i]<<" "<<Vy1[i]<<endl;
+        outfile2<<arrt1[i]<<" "<<arrx1[i]<<" "<<Vx1[i]<<" "<<arry1[i]<<" "<<Vy1[i]<<" "<<momentum1[i]<<endl;
         }
     outfile2.close();
     }
@@ -150,24 +162,24 @@ double Runge(double h0,string nombre)
         {
         //K para posicion X
         kx1=h0*posicionx(arrx2[i-1],Vx2[i-1],arrt2[i-1]);
-        kx2=h0*posicionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kx1,arrt2[i-1]+0.5*h0);
-        kx3=h0*posicionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kx2,arrt2[i-1]+0.5*h0);
-        kx4=h0*posicionx(arrx2[i-1]+kx3,Vx2[i-1]+kx3,arrt2[i-1]+h0);
+        kx2=h0*posicionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kvx1,arrt2[i-1]);
+        kx3=h0*posicionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kvx2,arrt2[i-1]);
+        kx4=h0*posicionx(arrx2[i-1]+kx3,Vx2[i-1]+kvx3,arrt2[i-1]);
         //K para posicion y
         ky1=h0*posiciony(arry2[i-1],Vy2[i-1],arrt2[i-1]);
-        ky2=h0*posiciony(arry2[i-1]+0.5*ky1,Vy2[i-1]+0.5*ky1,arrt2[i-1]+0.5*h0);
-        ky3=h0*posiciony(arry2[i-1]+0.5*ky2,Vy2[i-1]+0.5*ky2,arrt2[i-1]+0.5*h0);
-        ky4=h0*posiciony(arry2[i-1]+ky3,Vy2[i-1]+ky3,arrt2[i-1]+h0);
+        ky2=h0*posiciony(arry2[i-1]+0.5*ky1,Vy2[i-1]+0.5*kvy1,arrt2[i-1]);
+        ky3=h0*posiciony(arry2[i-1]+0.5*ky2,Vy2[i-1]+0.5*kvy2,arrt2[i-1]);
+        ky4=h0*posiciony(arry2[i-1]+ky3,Vy2[i-1]+kvy3,arrt2[i-1]);
         //K para velocidad X
-        kvx1=h0*aceleracionx(arrx2[i-1],Vx2[0],Rs2[i-1],arrt2[i-1]);
-        kvx2=h0*aceleracionx(arrx2[i-1]+0.5*kvx1,Vx2[i-1]+0.5*kvx1,Rs2[i-1],arrt2[i-1]+0.5*h0);
-        kvx3=h0*aceleracionx(arrx2[i-1]+0.5*kvx2,Vx2[i-1]+0.5*kvx2,Rs2[i-1],arrt2[i-1]+0.5*h0);
-        kvx4=h0*aceleracionx(arrx2[i-1]+kvx3,Vx2[i-1]+kvx3,Rs2[i-1],arrt2[i-1]+h0);
+        kvx1=h0*aceleracionx(arrx2[i-1],Vx2[i-1],Rs2[i-1],arrt2[i-1]);
+        kvx2=h0*aceleracionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kvx1,Rs2[i-1],arrt2[i-1]);
+        kvx3=h0*aceleracionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kvx2,Rs2[i-1],arrt2[i-1]);
+        kvx4=h0*aceleracionx(arrx2[i-1]+kx3,Vx2[i-1]+kvx3,Rs2[i-1],arrt2[i-1]);
         //K para velocidad Y
-        kvy1=h0*aceleraciony(arry2[i-1],Vy2[0],Rs2[i-1],arrt2[i-1]);
-        kvy2=h0*aceleraciony(arry2[i-1]+0.5*kvy1,Vy2[i-1]+0.5*kvy1,Rs2[i-1],arrt2[i-1]+0.5*h0);
-        kvy3=h0*aceleraciony(arry2[i-1]+0.5*kvy2,Vy2[i-1]+0.5*kvy2,Rs2[i-1],arrt2[i-1]+0.5*h0);
-        kvy4=h0*aceleraciony(arry2[i-1]+kvy3,Vy2[i-1]+kvy3,Rs2[i-1],arrt2[i-1]+h0);
+        kvy1=h0*aceleraciony(arry2[i-1],Vy2[i-1],Rs2[i-1],arrt2[i-1]);
+        kvy2=h0*aceleraciony(arry2[i-1]+0.5*ky1,Vy2[i-1]+0.5*kvy1,Rs2[i-1],arrt2[i-1]);
+        kvy3=h0*aceleraciony(arry2[i-1]+0.5*ky2,Vy2[i-1]+0.5*kvy2,Rs2[i-1],arrt2[i-1]);
+        kvy4=h0*aceleraciony(arry2[i-1]+ky3,Vy2[i-1]+kvy3,Rs2[i-1],arrt2[i-1]);
         //Promedios
         promx=(1.0/6.0)*(kx1+2.0*kx2+2.0*kx3+kx4);
         promy=(1.0/6.0)*(ky1+2.0*ky2+2.0*ky3+ky4);
@@ -181,19 +193,24 @@ double Runge(double h0,string nombre)
         Vy2[i]=Vy2[i-1]+promvy;
         Rs2[i]= sqrt(pow(arrx2[i],2) + pow(arry2[i],2));
         }
+    double momentum2[num];
+    for(int i=0;i<num;i++)
+        {
+        momentum2[i]=momento(Rs2[i]);
+        }
     ofstream outfile3;
     outfile3.open(nombre);
     for(int i=0;i<num;i++)
         {
-        outfile3<<arrt2[i]<<" "<<arrx2[i]<<" "<<Vx2[i]<<" "<<arry2[i]<<" "<<Vy2[i]<<endl;
+        outfile3<<arrt2[i]<<" "<<arrx2[i]<<" "<<Vx2[i]<<" "<<arry2[i]<<" "<<Vy2[i]<<" "<<momentum2[i]<<endl;
         }
     outfile3.close();
     }
 int main()
     {
     double a=0.0;
-    double h=0.1;
-    double h1=0.01;
+    double h=0.01;
+    double h1=0.05;
     double h2=0.001;
     Euler(h,"Euler.dat");
     Leap(h,"LeapFrog.dat");
