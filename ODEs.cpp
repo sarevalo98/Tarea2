@@ -190,10 +190,10 @@ double Runge(double h0, int num)
     }
 int main()
     {
-    int N=1000;
     double a=0.0;
-    double b=M_PI/2.0;
-    double h=(b-a)/N;
+    double b=20.0;
+    double h=0.1;
+    int N=b/h;
     Euler(h,N);
     Leap(h,N);
     Runge(h,N);
