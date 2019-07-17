@@ -64,41 +64,100 @@ y9=datos9[:,3]
 vx9=datos9[:,2]
 vy9=datos9[:,4]
 
-plt.figure()
+###Grafica de posiciones
+plt.figure(figsize=(10,10))
 plt.subplot(3,3,1)
-plt.plot(x,y)
+plt.plot(x,y,label="h=0.1")
+plt.legend()
 plt.title("Euler")
 
 plt.subplot(3,3,2)
-plt.plot(x2,y2)
+plt.plot(x2,y2,label="h=0.1")
+plt.legend()
 plt.title("Leap-Frog")
 
 plt.subplot(3,3,3)
-plt.plot(x3,y3)
+plt.plot(x3,y3,label="h=0.1")
+plt.legend()
 plt.title("Runge-Kutta")
 
 
 plt.subplot(3,3,4)
-plt.plot(x4,y4)
+plt.plot(x4,y4,label="h=0.01")
+plt.legend()
 plt.title("Euler")
 
 plt.subplot(3,3,5)
-plt.plot(x5,y5)
+plt.plot(x5,y5,label="h=0.01")
+plt.legend()
 plt.title("Leap-Frog")
 
 plt.subplot(3,3,6)
-plt.plot(x6,y6)
+plt.plot(x6,y6,label="h=0.01")
+plt.legend()
 plt.title("Runge-Kutta")
 
 plt.subplot(3,3,7)
-plt.plot(x7,y7)
+plt.plot(x7,y7,label="h=0.001")
+plt.legend()
 plt.title("Euler")
 
 plt.subplot(3,3,8)
-plt.plot(x8,y8)
+plt.plot(x8,y8,label="h=0.001")
+plt.legend()
 plt.title("Leap-Frog")
 
 plt.subplot(3,3,9)
-plt.plot(x9,y9)
+plt.plot(x9,y9,label="h=0.001")
+plt.legend()
 plt.title("Runge-Kutta")
 plt.savefig("ORBITAS.png")
+
+##Grafica de velocidades
+plt.figure(figsize=(10,10))
+plt.subplot(3,3,1)
+plt.plot(vx,vy,label="h=0.1")
+plt.legend()
+plt.title("Euler")
+
+plt.subplot(3,3,2)
+plt.plot(vx2,vy2,label="h=0.1")
+plt.legend()
+plt.title("Leap-Frog")
+
+plt.subplot(3,3,3)
+plt.plot(vx3,vy3,label="h=0.1")
+plt.legend()
+plt.title("Runge-Kutta")
+
+
+plt.subplot(3,3,4)
+plt.plot(vx4,vy4,label="h=0.01")
+plt.legend()
+plt.title("Euler")
+
+plt.subplot(3,3,5)
+plt.plot(vx5,vy5,label="h=0.01")
+plt.legend()
+plt.title("Leap-Frog")
+
+plt.subplot(3,3,6)
+plt.plot(vx6,vy6,label="h=0.01")
+plt.legend()
+plt.title("Runge-Kutta")
+
+plt.subplot(3,3,7)
+plt.plot(vx7,vy7,label="h=0.001")
+plt.legend()
+plt.title("Euler")
+
+plt.subplot(3,3,8)
+plt.plot(vx8,vy8,label="h=0.001")
+plt.legend()
+plt.title("Leap-Frog")
+
+plt.subplot(3,3,9)
+plt.plot(vx9,vy9,label="h=0.001")
+plt.legend()
+plt.title("Runge-Kutta")
+plt.savefig("VELOCIDADES.png")
