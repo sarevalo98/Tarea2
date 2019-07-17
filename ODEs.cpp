@@ -29,7 +29,7 @@ double aceleraciony(double y0,double vy0,double r0)
     double ay= Gy*My*y0/pow(r0,3);
     return ay;
     }
-double Euler(double h0)
+double Euler(double h0, string nombre)
     {
     int num=20.0/h0;
     //Arrays
@@ -57,7 +57,7 @@ double Euler(double h0)
         Rs[i]=sqrt(pow(arrx[i],2) + pow(arry[i],2));
         }
     ofstream outfile;
-    outfile.open("Euler.dat");
+    outfile.open(nombre);
     for(int i=0;i<num;i++)
         {
         outfile<<arrt[i]<<" "<<arrx[i]<<" "<<Vx[i]<<" "<<arry[i]<<" "<<Vy[i]<<endl;
@@ -65,7 +65,7 @@ double Euler(double h0)
     outfile.close();
     }
 //Leap-Frog
-double Leap(double h0)
+double Leap(double h0,string nombre)
     {
     int num=20.0/h0;
     //Arrays
@@ -100,7 +100,7 @@ double Leap(double h0)
         Rs1[i]=sqrt(pow(arrx1[i],2) + pow(arry1[i],2));
         }
     ofstream outfile2;
-    outfile2.open("LeapFrog.dat");
+    outfile2.open(nombre);
     for(int i=0;i<num;i++)
         {
         outfile2<<arrt1[i]<<" "<<arrx1[i]<<" "<<Vx1[i]<<" "<<arry1[i]<<" "<<Vy1[i]<<endl;
@@ -108,7 +108,7 @@ double Leap(double h0)
     outfile2.close();
     }
 //Runge-kutta.
-double Runge(double h0)
+double Runge(double h0,string nombre)
     {
     int num=20.0/h0;
     //Arrays
@@ -184,7 +184,7 @@ double Runge(double h0)
         Rs2[i]= sqrt(pow(arrx2[i],2) + pow(arry2[i],2));
         }
     ofstream outfile3;
-    outfile3.open("RungeKutta.dat");
+    outfile3.open(nombre);
     for(int i=0;i<num;i++)
         {
         outfile3<<arrt2[i]<<" "<<arrx2[i]<<" "<<Vx2[i]<<" "<<arry2[i]<<" "<<Vy2[i]<<endl;
@@ -194,10 +194,17 @@ double Runge(double h0)
 int main()
     {
     double a=0.0;
-    double b=20.0;
     double h=0.01;
-    Euler(h);
-    Leap(h);
-    Runge(h);
+    double h1=0.001;
+    double h2=0.1;
+    Euler(h,"Euler.dat");
+    Leap(h,"LeapFrog.dat");
+    Runge(h,"RungeKutta.dat");
+    Euler(h1,"Euler1.dat");
+    Leap(h1,"LeapFrog1.dat");
+    Runge(h1,"RungeKutta1.dat");
+     Euler(h2,"Euler2.dat");
+    Leap(h2,"LeapFrog2.dat");
+    Runge(h2,"RungeKutta2.dat");
     return 0;
     }
