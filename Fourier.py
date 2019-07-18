@@ -55,8 +55,8 @@ plt.colorbar()
 plt.savefig("Parte1.png")
 
 #Filtros
-filtro1=np.where(imagetrans1>50)
-filtro2=np.where(imagetrans2<20)
+filtro1=np.where(imagetrans1>90)
+filtro2=np.where(imagetrans2<10)
 imagetrans1[filtro1]=0
 imagetrans2[filtro2]=0
 
