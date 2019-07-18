@@ -62,15 +62,16 @@ ceros2[filtro2]=0
 #transformada inversa de las imagenes filtradas
 ffinal1 = ifftshift(ceros1)
 ffinal2 = ifftshift(ceros2)
-superpos = ffinal1+ffinal2
-imafinal=ifft2(superpos)
+supe1 = ifft2(ffinal1)
+supe2 = ifft2(ffinal2)
+imafinal=supe1 + supe2
 #Filtros de la imagen
 plt.figure(figsize=(10,10))
 plt.subplot(1,3,1)
-plt.imshow(np.real(ffinal1),cmap='gray')
+plt.imshow(np.real(supe1),cmap='gray')
 plt.title("Cara_02 filtrada")
 plt.subplot(1,3,2)
-plt.imshow(np.real(ffinal2),cmap='gray')
+plt.imshow(np.real(supe2),cmap='gray')
 plt.title("Cara_03 filtrada")
 plt.subplot(1,3,3)
 plt.imshow(abs(imafinal),cmap='gray')
