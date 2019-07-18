@@ -234,7 +234,7 @@ int main()
     {
     double a=0.0;
     double h=0.01;
-    double h1=0.05;
+    double h1=0.005;
     double h2=0.001;
     Euler(h,"Euler.dat");
     Leap(h,"LeapFrog.dat");

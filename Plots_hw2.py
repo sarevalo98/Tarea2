@@ -101,17 +101,17 @@ plt.title("Runge-Kutta")
 
 
 plt.subplot(3,3,4)
-plt.plot(x4,y4,label="h=0.05")
+plt.plot(x4,y4,label="h=0.005")
 plt.legend()
 plt.title("Euler")
 
 plt.subplot(3,3,5)
-plt.plot(x5,y5,label="h=0.05")
+plt.plot(x5,y5,label="h=0.005")
 plt.legend()
 plt.title("Leap-Frog")
 
 plt.subplot(3,3,6)
-plt.plot(x6,y6,label="h=0.05")
+plt.plot(x6,y6,label="h=0.005")
 plt.legend()
 plt.title("Runge-Kutta")
 
@@ -150,17 +150,17 @@ plt.title("Runge-Kutta")
 
 
 plt.subplot(3,3,4)
-plt.plot(vx4,vy4,label="h=0.05")
+plt.plot(vx4,vy4,label="h=0.005")
 plt.legend()
 plt.title("Euler")
 
 plt.subplot(3,3,5)
-plt.plot(vx5,vy5,label="h=0.05")
+plt.plot(vx5,vy5,label="h=0.005")
 plt.legend()
 plt.title("Leap-Frog")
 
 plt.subplot(3,3,6)
-plt.plot(vx6,vy6,label="h=0.05")
+plt.plot(vx6,vy6,label="h=0.005")
 plt.legend()
 plt.title("Runge-Kutta")
 
@@ -199,17 +199,17 @@ plt.title("Runge-Kutta")
 
 
 plt.subplot(3,3,4)
-plt.plot(T4,mo4,label="h=0.05")
+plt.plot(T4,mo4,label="h=0.005")
 plt.legend()
 plt.title("Euler")
 
 plt.subplot(3,3,5)
-plt.plot(T5,mo5,label="h=0.05")
+plt.plot(T5,mo5,label="h=0.005")
 plt.legend()
 plt.title("Leap-Frog")
 
 plt.subplot(3,3,6)
-plt.plot(T6,mo6,label="h=0.05")
+plt.plot(T6,mo6,label="h=0.005")
 plt.legend()
 plt.title("Runge-Kutta")
 
@@ -248,17 +248,17 @@ plt.title("Runge-Kutta")
 
 
 plt.subplot(3,3,4)
-plt.plot(T4,E4,label="h=0.05")
+plt.plot(T4,E4,label="h=0.005")
 plt.legend()
 plt.title("Euler")
 
 plt.subplot(3,3,5)
-plt.plot(T5,E5,label="h=0.05")
+plt.plot(T5,E5,label="h=0.005")
 plt.legend()
 plt.title("Leap-Frog")
 
 plt.subplot(3,3,6)
-plt.plot(T6,E6,label="h=0.05")
+plt.plot(T6,E6,label="h=0.005")
 plt.legend()
 plt.title("Runge-Kutta")
 
