@@ -179,25 +179,28 @@ double Runge(double h0,string nombre)
     //Procedimiento
     for(int i=1;i<num;i++)
         {
-        //K para posicion X
+        //K1
         kx1=h0*posicionx(arrx2[i-1],Vx2[i-1],arrt2[i-1]);
-        kx2=h0*posicionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kvx1,arrt2[i-1]+0.5*h0);
-        kx3=h0*posicionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kvx2,arrt2[i-1]+0.5*h0);
-        kx4=h0*posicionx(arrx2[i-1]+kx3,Vx2[i-1]+kvx3,arrt2[i-1]+h0);
-        //K para posicion y
         ky1=h0*posiciony(arry2[i-1],Vy2[i-1],arrt2[i-1]);
-        ky2=h0*posiciony(arry2[i-1]+0.5*ky1,Vy2[i-1]+0.5*kvy1,arrt2[i-1]+0.5*h0);
-        ky3=h0*posiciony(arry2[i-1]+0.5*ky2,Vy2[i-1]+0.5*kvy2,arrt2[i-1]+0.5*h0);
-        ky4=h0*posiciony(arry2[i-1]+ky3,Vy2[i-1]+kvy3,arrt2[i-1]+h0);
-        //K para velocidad X
         kvx1=h0*aceleracionx(arrx2[i-1],Vx2[i-1],Rs2[i-1],arrt2[i-1]);
-        kvx2=h0*aceleracionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kvx1,Rs2[i-1],arrt2[i-1]+0.5*h0);
-        kvx3=h0*aceleracionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kvx2,Rs2[i-1],arrt2[i-1]+0.5*h0);
-        kvx4=h0*aceleracionx(arrx2[i-1]+kx3,Vx2[i-1]+kvx3,Rs2[i-1],arrt2[i-1]+h0);
-        //K para velocidad Y
         kvy1=h0*aceleraciony(arry2[i-1],Vy2[i-1],Rs2[i-1],arrt2[i-1]);
+        
+        //K2
+        kx2=h0*posicionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kvx1,arrt2[i-1]+0.5*h0);
+        ky2=h0*posiciony(arry2[i-1]+0.5*ky1,Vy2[i-1]+0.5*kvy1,arrt2[i-1]+0.5*h0);
+        kvx2=h0*aceleracionx(arrx2[i-1]+0.5*kx1,Vx2[i-1]+0.5*kvx1,Rs2[i-1],arrt2[i-1]+0.5*h0);
         kvy2=h0*aceleraciony(arry2[i-1]+0.5*ky1,Vy2[i-1]+0.5*kvy1,Rs2[i-1],arrt2[i-1]+0.5*h0);
+        
+        //K3
+        kx3=h0*posicionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kvx2,arrt2[i-1]+0.5*h0);
+        ky3=h0*posiciony(arry2[i-1]+0.5*ky2,Vy2[i-1]+0.5*kvy2,arrt2[i-1]+0.5*h0);
+        kvx3=h0*aceleracionx(arrx2[i-1]+0.5*kx2,Vx2[i-1]+0.5*kvx2,Rs2[i-1],arrt2[i-1]+0.5*h0);
         kvy3=h0*aceleraciony(arry2[i-1]+0.5*ky2,Vy2[i-1]+0.5*kvy2,Rs2[i-1],arrt2[i-1]+0.5*h0);
+        
+        //K4
+        kx4=h0*posicionx(arrx2[i-1]+kx3,Vx2[i-1]+kvx3,arrt2[i-1]+h0);
+        ky4=h0*posiciony(arry2[i-1]+ky3,Vy2[i-1]+kvy3,arrt2[i-1]+h0);
+        kvx4=h0*aceleracionx(arrx2[i-1]+kx3,Vx2[i-1]+kvx3,Rs2[i-1],arrt2[i-1]+h0);
         kvy4=h0*aceleraciony(arry2[i-1]+ky3,Vy2[i-1]+kvy3,Rs2[i-1],arrt2[i-1]+h0);
         //Promedios
         promx=(1.0/6.0)*(kx1+2.0*kx2+2.0*kx3+kx4);
