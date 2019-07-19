@@ -129,7 +129,7 @@ plt.subplot(3,3,9)
 plt.plot(x9,y9,label="h=0.001")
 plt.legend()
 plt.title("Runge-Kutta")
-plt.savefig("ORBITAS.png")
+plt.savefig("XY_met_dt.png")
 
 ##Grafica de velocidades
 plt.figure(figsize=(10,10))
@@ -178,7 +178,7 @@ plt.subplot(3,3,9)
 plt.plot(vx9,vy9,label="h=0.001")
 plt.legend()
 plt.title("Runge-Kutta")
-plt.savefig("VELOCIDADES.png")
+plt.savefig("VxVy_met_dt.png")
 
 ###Grafica de Momentum
 plt.figure(figsize=(10,10))
@@ -227,7 +227,7 @@ plt.subplot(3,3,9)
 plt.plot(T9,mo9,label="h=0.001")
 plt.legend()
 plt.title("Runge-Kutta")
-plt.savefig("MOMENTUM_ANGULAR.png")
+plt.savefig("Mome_met_dt.png")
 
 ###Grafica de Energia
 plt.figure(figsize=(10,10))
@@ -276,4 +276,4 @@ plt.subplot(3,3,9)
 plt.plot(T9,E9,label="h=0.001")
 plt.legend()
 plt.title("Runge-Kutta")
-plt.savefig("ENERGIA_SISTEMA.png")
+plt.savefig("Ener_met_dt.png")
